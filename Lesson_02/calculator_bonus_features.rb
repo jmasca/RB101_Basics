@@ -29,7 +29,7 @@ def number?(number)
   integer?(number) || float?(number)
 end
 
-#obtain a valid number
+# obtain a valid number
 def get_number(number, lang, position)
   loop do
     prompt('first_number', lang) if position == 1
