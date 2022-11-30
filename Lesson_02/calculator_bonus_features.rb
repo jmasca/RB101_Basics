@@ -29,6 +29,21 @@ def number?(number)
   integer?(number) || float?(number)
 end
 
+#obtain a valid number
+def get_number(number, lang, position)
+  loop do
+    prompt('first_number', lang) if position == 1
+    prompt('second_number', lang) if position == 2
+    number = gets.chomp
+
+    if number?(number)
+      return number.to_f
+    else
+      prompt('valid_number', lang)
+    end
+  end
+end
+
 # convert the operator choice to a word
 def operator_conversion(operator, lang)
   choice = case operator
@@ -84,31 +99,11 @@ prompt('greet', language, (name + '!'))
 loop do # main loop
   # obtain a valid first number
   first_number = ''
-  loop do
-    prompt('first_number', language)
-    first_number = gets.chomp
-
-    if number?(first_number)
-      first_number = first_number.to_f
-      break
-    else
-      prompt('valid_number', language)
-    end
-  end
+  first_number = get_number(first_number, language, 1)
 
   # obtain a valid second number
   second_number = ''
-  loop do
-    prompt('second_number', language)
-    second_number = gets.chomp
-
-    if number?(second_number)
-      second_number = second_number.to_f
-      break
-    else
-      prompt('valid_number', language)
-    end
-  end
+  second_number = get_number(second_number, language, 2)
 
   prompt('operator_prompt', language)
 
