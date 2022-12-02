@@ -3,15 +3,9 @@ require 'yaml'
 MESSAGES = YAML.load_file('calculator_messages.yml')
 
 # used to format prompts
-def prompt(key, lang, input='', op=false)
+def prompt(key, lang, input='')
   message = MESSAGES[lang][key]
-  if input.empty?
-    puts "=> #{message}"
-  elsif op
-    puts "=> #{input} #{message}"
-  else
-    puts "=> #{message} #{input}"
-  end
+  puts input.empty? ? "=> #{message}" : "=> #{message} #{input}"
 end
 
 # test if number is a valid integer
@@ -21,7 +15,7 @@ end
 
 # test if number is a valid float
 def float?(number)
-  number.to_f.to_s == number
+  /\d/.match(number) && /^-?\d*\.?\d*$/.match(number)
 end
 
 # test for a valid number
@@ -44,105 +38,99 @@ def get_number(number, lang, position)
   end
 end
 
-# convert the operator choice to a word
-def operator_conversion(operator, lang)
-  choice = case operator
-           when '1'
-             MESSAGES[lang]['convert_1']
-           when '2'
-             MESSAGES[lang]['convert_2']
-           when '3'
-             MESSAGES[lang]['convert_3']
-           when '4'
-             MESSAGES[lang]['convert_4']
-           end
-  choice
+# obtain a valid language selection from the user
+def get_language
+  loop do
+    system "clear"
+    prompt('choose_language', 'a')
+    selection = gets.chomp
+
+    case selection
+    when '1' then return 'en'
+    when '2' then return 'es'
+    end
+
+    prompt('invalid_language_choice', 'a')
+    sleep(1)
+  end
 end
 
-# Begin Calculator Program #
-
-# obtain a valid language selection from the user
-language = ''
-loop do
-  system "clear"
-  prompt('choose_language', 'a')
-  selection = gets.chomp
-
-  case selection
-  when '1'
-    system "clear"
-    language = 'en'
-    prompt('welcome', language)
-    break
-  when '2'
-    system "clear"
-    language = 'es'
-    prompt('welcome', language)
-    break
-  end
+# display a welcome message to user / ask for name
+def display_welcome(language)
+  system 'clear'
+  prompt('welcome', language)
 end
 
 # obtain a valid name from the user
-name = ''
-loop do
-  name = gets.chomp
+def get_name(language)
+  loop do
+    name = gets.chomp.strip
 
-  if name.empty?
-    prompt('valid_name', language)
-  else
-    break
+    if name.empty?
+      prompt('valid_name', language)
+    else
+      return name
+    end
   end
 end
 
-prompt('greet', language, (name + '!'))
+# display a personalized greeting message to user
+def display_greeting(name, language)
+  prompt('greet', language, (name + '!'))
+end
 
-loop do # main loop
-  # obtain a valid first number
-  first_number = ''
-  first_number = get_number(first_number, language, 1)
-
-  # obtain a valid second number
-  second_number = ''
-  second_number = get_number(second_number, language, 2)
-
+# obtain the operator of choice from the user
+def get_operator(language)
   prompt('operator_prompt', language)
-
-  # obtain the operator of choice from the user
-  operator = ''
   loop do
     operator = gets.chomp
 
     if %w(1 2 3 4).include?(operator)
-      break
+      return operator
     else
       prompt('valid_operator', language)
     end
   end
+end
 
-  # convert the operator choice to a word
-  op_action = operator_conversion(operator, language)
+# display message about what operation is being performed
+def display_operator_message(operator, lang)
+  case operator
+  when '1'
+    print MESSAGES[lang]['op_1']
+  when '2'
+    print MESSAGES[lang]['op_2']
+  when '3'
+    print MESSAGES[lang]['op_3']
+  when '4'
+    print MESSAGES[lang]['op_4']
+  end
 
-  # perform the requested operation
-  prompt('operator_message', language, op_action, true)
+  puts MESSAGES[lang]['operator_message']
   sleep(1)
+end
 
-  result = case operator
-           when '1'
-             first_number + second_number
-           when '2'
-             first_number - second_number
-           when '3'
-             first_number * second_number
-           when '4'
-             first_number / second_number
-           end
+# perform requested calculation
+def calculate(first_number, second_number, operator)
+  case operator
+  when '1'
+    first_number + second_number
+  when '2'
+    first_number - second_number
+  when '3'
+    first_number * second_number
+  when '4'
+    first_number / second_number
+  end
+end
 
-  result = result.to_i if result.to_s.end_with?('.0')
+# display result
+def display_result(result, language)
+  prompt('result', language, result)
+end
 
-  # display result
-  prompt('result', language, result.to_s)
-
-  # ask if user wants to use calculator again
+# ask if user wants to use calculator again
+def calculate_again?(language)
   quit = false
 
   until quit
@@ -151,15 +139,44 @@ loop do # main loop
 
     if answer.downcase.start_with?('y', 's')
       system "clear"
-      break
+      return false
     elsif answer.downcase.start_with?('n')
-      quit = true
+      return true
     else
       prompt('invalid', language)
     end
   end
+end
+
+# thank the user and say good bye
+def say_goodbye(language)
+  prompt('bye', language)
+end
+
+# Begin Calculator Program #
+
+language = get_language
+display_welcome(language)
+
+name = get_name(language)
+display_greeting(name, language)
+
+loop do # main loop
+  first_number = get_number(first_number, language, 1)
+  second_number = get_number(second_number, language, 2)
+
+  operator = get_operator(language)
+
+  display_operator_message(operator, language)
+
+  result = calculate(first_number, second_number, operator)
+  result = result.to_i if result.to_s.end_with?('.0')
+
+  display_result(result.to_s, language)
+
+  quit = calculate_again?(language)
 
   break if quit
 end
 
-prompt('bye', language)
+say_goodbye(language)

@@ -4,6 +4,8 @@ a:
         1 - English
         2 - español
 
+  invalid_language_choice: "That was an invalid choice."
+
 en:
   welcome: "Welcome to Calculator! Enter your name:"
   valid_name: "Make sure to enter a valid name."
@@ -21,11 +23,11 @@ en:
          4) divide
 
   valid_operator: "Must choose 1, 2, 3, or 4"
-  convert_1: "Adding"
-  convert_2: "Subtracting"
-  convert_3: "Multiplying"
-  convert_4: "Dividing"
-  operator_message: "the two numbers..."
+  op_1: "=> Adding"
+  op_2: "=> Subtracting"
+  op_3: "=> Multiplying"
+  op_4: "=> Dividing"
+  operator_message: " the two numbers..."
   
   result: "The result is"
 
@@ -50,11 +52,11 @@ es:
          4) división
 
   valid_operator: "Debe elegir 1, 2, 3, o 4"
-  convert_1: "Sumando"
-  convert_2: "Restando"
-  convert_3: "Multiplicando"
-  convert_4: "Dividiendo"
-  operator_message: "los dos numeros..."
+  op_1: "=> Sumando"
+  op_2: "=> Restando"
+  op_3: "=> Multiplicando"
+  op_4: "=> Dividiendo"
+  operator_message: " los dos numeros..."
 
   result: "El resultado es"
 
