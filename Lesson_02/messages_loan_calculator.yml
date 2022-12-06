@@ -1,0 +1,38 @@
+welcome: "Welcome to the Mortgage / Car Loan Calculator"
+
+name: "Please enter your name:"
+valid_name: "Make sure to enter a valid name."
+greet: "Hello"
+
+loan_amount: "What is the amount of the loan? (do not inculde $ symbol)"
+valid_amount: "Hmm... that doesn't look like a valid amount."
+
+apr: "What is the Annual Percentage Rate (APR)? (ex. enter 4.5 for 4.5 %)"
+valid_apr: "Hmm... that doesn't look like a valid APR."
+
+duration_in_months: "How many months is the duration of the loan?"
+valid_duration: "Hmm... that doesn't look like a valid number of months."
+
+details: "Your loan details are:"
+input_amount: "Loan Amount:"
+input_apr: "APR:"
+input_duration: "Loan Duration:"
+
+correct: "Is this information correct? (Y or N)"
+invalid_response: "That was not a valid response."
+thank_you: "Thank you for verifying."
+
+what_info: |
+  What would you like to correct?
+      1. Loan Amount
+      2. APR
+      3. Loan Duration
+      4. Everything is Correct
+
+must_enter: "You must enter 1, 2, 3, or 4"
+
+calculating: "Calculating monthly payment amount..."
+display_monthly_payment: "Your monthly payment will be"
+
+again?: "Would you like to calculate another monthly payment amount? (Y or N)"
+bye: "Thank you for using the Mortgage / Car Loan Calculator! Good bye!"
