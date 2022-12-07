@@ -14,6 +14,18 @@ def get_message(key, input)
   input.empty? ? "=> #{message}" : "=> #{message} #{input}"
 end
 
+# welcome and greet the user
+def welcome_and_greet
+  prompt('welcome')
+  sleep(1)
+
+  prompt('name')
+  name = get_name
+
+  prompt('greet', (name + '!'))
+  sleep(1)
+end
+
 # obtain a valid name from the user
 def get_name
   loop do
@@ -46,7 +58,7 @@ def get_loan_amount
     loan_amount = gets.chomp
     loan_amount.delete!(',') if loan_amount.include?(',')
 
-    if valid_loan_amount?(loan_amount)
+    if valid_loan_amount?(loan_amount) && loan_amount.to_f > 0
       return loan_amount
     else
       prompt('valid_amount')
@@ -76,7 +88,7 @@ def get_loan_duration
     prompt('duration_in_months')
     loan_duration_months = gets.chomp
 
-    if integer?(loan_duration_months)
+    if integer?(loan_duration_months) && loan_duration_months.to_i > 0
       return loan_duration_months
     else
       prompt('valid_duration')
@@ -86,12 +98,13 @@ end
 
 # validate the loan amount
 def valid_loan_amount?(amount)
+  return false if amount.include?('.') && amount.split('.').last.size > 2
   integer?(amount) || float?(amount)
 end
 
 # validate the APR
 def valid_apr?(rate)
-  if rate.to_f > 100 || rate.to_f <= 0
+  if rate.to_f > 100 || rate.to_f < 0
     return false
   end
   integer?(rate) || float?(rate)
@@ -183,14 +196,40 @@ def get_choice
   end
 end
 
+# display prompts to the user
+def verified_and_calculating_prompts
+  prompt('thank_you')
+  sleep(2)
+  system "clear"
+
+  prompt('calculating')
+  sleep(2)
+end
+
+# calculate monthly payment with 0% interest
+def calculate_monthly_payment_zero(loan_amount, loan_duration_months)
+  loan_amount.to_f / loan_duration_months.to_f
+end
+
 # calculate the monthly payment amount
-def calculate(loan_amount, apr, loan_duration_months)
-  monthly_rate = ((apr.to_f / 100) / 12)
+def calculate_monthly_payment(loan_amount, apr, loan_duration_months)
   loan_amount.delete!(',') if loan_amount.include?(',')
 
-  monthly_payment = loan_amount.to_f * (monthly_rate /
-      (1 - (1 + monthly_rate)**(-loan_duration_months.to_f)))
+  if apr == '0'
+    monthly_payment = calculate_monthly_payment_zero(loan_amount,
+                                                     loan_duration_months)
+  else
+    monthly_rate = ((apr.to_f / 100) / 12)
 
+    monthly_payment = loan_amount.to_f * (monthly_rate /
+          (1 - (1 + monthly_rate)**(-loan_duration_months.to_f)))
+  end
+
+  format_monthly_payment(monthly_payment)
+end
+
+# format the monthly payment amount
+def format_monthly_payment(monthly_payment)
   monthly_payment = format('%.2f', monthly_payment)
   format_amount(monthly_payment.to_s)
 end
@@ -212,17 +251,20 @@ def again?
   end
 end
 
+# display monthly payment amount
+def display_monthly_payment(loan_amount, apr, loan_duration_months,
+                            monthly_payment)
+  display_info(loan_amount, apr, loan_duration_months)
+  puts "\n"
+  prompt('display_monthly_payment', ('$' + monthly_payment))
+  puts "\n"
+  sleep(2)
+end
+
 ## Begin Mortgage / Car Loan Calculator Program ##
 system "clear"
 
-prompt('welcome')
-sleep(1)
-
-prompt('name')
-name = get_name
-
-prompt('greet', (name + '!'))
-sleep(1)
+welcome_and_greet
 
 loop do # main loop
   loan_amount = get_loan_amount
@@ -240,21 +282,14 @@ loop do # main loop
     end
   end
 
-  prompt('thank_you')
-  sleep(2)
+  verified_and_calculating_prompts
+
+  monthly_payment = calculate_monthly_payment(loan_amount, apr,
+                                              loan_duration_months)
   system "clear"
 
-  prompt('calculating')
-  sleep(2)
-
-  monthly_payment = calculate(loan_amount, apr, loan_duration_months)
-  system "clear"
-
-  display_info(loan_amount, apr, loan_duration_months)
-  puts "\n"
-  prompt('display_monthly_payment', ('$' + monthly_payment))
-  puts "\n"
-  sleep(2)
+  display_monthly_payment(loan_amount, apr, loan_duration_months,
+                          monthly_payment)
 
   again = again?
   break if !again
