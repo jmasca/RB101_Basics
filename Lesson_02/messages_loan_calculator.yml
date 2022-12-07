@@ -4,7 +4,7 @@ name: "Please enter your name:"
 valid_name: "Make sure to enter a valid name."
 greet: "Hello"
 
-loan_amount: "What is the amount of the loan? (do not inculde $ symbol)"
+loan_amount: "What is the amount of the loan? (do not include $ symbol)"
 valid_amount: "Hmm... that doesn't look like a valid amount."
 
 apr: "What is the Annual Percentage Rate (APR)? (ex. enter 4.5 for 4.5 %)"
