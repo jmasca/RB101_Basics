@@ -1,0 +1,42 @@
+welcome: "  Welcome to Rock, Paper, Scissors, Lizard, Spock!  <="
+view_instructions?: "Would you like to view the instructions? (Y or N)"
+invalid: "That was not a valid response. Please enter Y or N."
+display_instructions: |
+              -- Instructions -- <=
+
+              Scissors cuts Paper, Paper covers Rock, Rock Crushes Lizard,
+              Lizard poisons Spock, Spock smashes Scissors, Scissors decapitates Lizard,
+              Lizard eats Paper, Paper disproves Spock, Spock vaporizes Rock,
+              and as it always has Rock crushes Scissors.
+
+              When making your selection you can type out any portion of the word
+              as long as you start from the beginning: "r", "ro", "roc", or "rock" will
+              all work to select "Rock". The only exceptions are for Scissors and Spock.
+              When selecting either of these you must enter at least the first two letters:
+              at least "sc" for "Scissors" and at least "sp" for "Spock".
+
+              The winner of each game will receive 1 point.
+              
+              The first to 3 points will be the Grand Winner!
+
+
+
+              Press Enter to begin game!
+
+choose_one: "Choose one:"
+not_valid: "You've made an invalid choice."
+
+user_chose: "You chose:"
+computer_chose: "Computer chose:"
+
+user_wins: "You won!"
+computer_wins: "Computer won!"
+tie: "It's a tie! We'll replay the round!"
+
+next_round: "Press Enter to begin the next round!"
+
+grand_user: "YOU ARE THE GRAND WINNER!!!"
+grand_computer: "THE COMPUTER IS THE GRAND WINNER!"
+
+play_again?: "Would you like to play another match?"
+thank_you: "Thank you for playing Rock, Paper, Scissors, Lizard, Spock!"
