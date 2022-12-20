@@ -92,7 +92,7 @@ end
 def get_users_choice
   loop do
     prompt('choose_one', VALID_CHOICES.join(', '))
-    choice = gets.chomp.strip.downcase
+    choice = gets.strip.downcase
 
     if valid_choice?(choice)
       choice = retrieve_full_word(choice)
@@ -134,15 +134,13 @@ def retrieve_message(key, input)
 end
 
 def grand_winner?(win_count)
-  return true if win_count[:user] == 3 || win_count[:computer] == 3
-  false
+  win_count[:user] == 3 || win_count[:computer] == 3
 end
 
 def play_again?
   puts "\n\n"
   prompt('play_again?')
-  return true if get_yes_or_no == 'y'
-  false
+  get_yes_or_no == 'y'
 end
 
 def valid_choice?(choice)
@@ -154,8 +152,7 @@ end
 def view_instructions?
   prompt('view_instructions?')
   view_instructions = get_yes_or_no
-  return true if view_instructions == 'y'
-  false
+  view_instructions == 'y'
 end
 
 def win?(first, second)
