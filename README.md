@@ -1,6 +1,9 @@
-# README #
+# README
 
-"RB101: Programming Foundations"
-These are a collection of exercises that were completed as part of the Launch School
-curriculum. The exercises are from the course "RB101 Programming Foundations" created by
-Launch School. The solutions are my own. These are purely for educational purposes.
+"RB101: Programming Foundations with Ruby: Basics"
+
+These are a collection of lessons that were completed as part of the Launch School curriculum.
+
+The lessons, questions, and some notes were created by Launch School.
+
+Solutions and other notes are my own. Everything here is purely for my educational purposes.
